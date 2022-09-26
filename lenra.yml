@@ -8,9 +8,9 @@ generator:
       adds:
       - "."
       script:
-      - apt update && apt install -y libatomic1 libssl-dev
+      - apt-get update && apt-get install -y libatomic1 libssl-dev
       - mkdir -p out/
-      - v -prod -o out/app .
+      - v -cg -o out/app .
       # copy the generated binary outside of the target directory. If not the other stages won't be able to find it since it's in a cache volume
       - mv out/app /tmp/
     image: bitnami/minideb

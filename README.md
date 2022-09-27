@@ -3,7 +3,7 @@
 
 ## Get Started !
 
-### Prerequis
+### Requirements*
 
 - [x] docker
 - [x] docker-compose

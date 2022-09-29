@@ -2,7 +2,7 @@ module widgets
 
 import x.json2 { Any }
 
-pub fn loading(_data map[string]Any, props map[string]Any, context map[string]Any) Any {
+pub fn loading(_data map[string]Any, props map[string]Any, context map[string]Any) ?Any {
 	return {
 		'type':  Any('text')
 		'value': 'Loading...'

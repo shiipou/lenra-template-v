@@ -3,7 +3,7 @@ module widgets
 import x.json2 { Any }
 import src.utils { padding_symmetric }
 
-pub fn menu(_data map[string]Any, props map[string]Any, context map[string]Any) Any {
+pub fn menu(_data map[string]Any, props map[string]Any, context map[string]Any) ?Any {
 	return {
 		'type':       Any('container')
 		'decoration': {

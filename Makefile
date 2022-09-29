@@ -1,10 +1,10 @@
 PROJECT_NAME ?= $(shell cat ${PWD}/v.mod | grep name | cut -d':' -f2 | xargs)
 VERSION ?= $(shell cat ${PWD}/v.mod | grep version | cut -d':' -f2 | xargs)
-ENV ?= 'dev'
+BUILD_ARGS ?= '-cg'
 
 build: check
 	@mkdir -p "${PWD}/out/"
-	v $([ "$ENV" == 'prod' ] && echo '-prod') -o "out/${PROJECT_NAME}" .
+	v ${BUILD_ARGS} -o "out/${PROJECT_NAME}" .
 
 check:
 	@v fmt -c .

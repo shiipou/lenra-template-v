@@ -34,12 +34,15 @@ pub fn (self Api) get_document<T>(collection string, id string) ?T {
 }
 
 pub fn (self Api) create_document<T>(collection string, document T) ?T {
+	eprintln('CreateDocument: $collection, $document')
+
 	response := http.fetch(
 		url: '$self.url/app/colls/$collection/docs'
 		method: .post
 		header: http.new_header(key: .authorization, value: 'Bearer $self.token')
 		data: json.encode(document)
 	) or { panic(err) }
+	eprintln('CreateDocument<Response>: $response')
 
 	return match response.status().is_success() {
 		true {

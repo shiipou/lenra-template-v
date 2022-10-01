@@ -10,7 +10,7 @@ pub fn menu(_data []Any, props map[string]Any, context map[string]Any) ?Any {
 			'color':     Any(0xFFFFFFFF)
 			'boxShadow': {
 				'blurRadius': Any(8)
-				'color':      Any(0x1A000000)
+				'color':      0x1A000000
 				'offset':     {
 					'dx': Any(0)
 					'dy': 1

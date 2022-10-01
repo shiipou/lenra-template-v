@@ -23,8 +23,13 @@ pub fn (self Api) get_document<T>(collection string, id string) ?T {
 	) or { panic(err) }
 
 	return match response.status().is_success() {
-		true { json.decode(T, response.body)? }
-		else { panic('Http code: $response.status_code $response.status_msg') }
+		true {
+			json.decode(T, response.body)?
+		}
+		else {
+			panic('Http code: $response.status_code $response.status_msg')
+			T{}
+		}
 	}
 }
 
@@ -37,8 +42,13 @@ pub fn (self Api) create_document<T>(collection string, document T) ?T {
 	) or { panic(err) }
 
 	return match response.status().is_success() {
-		true { json.decode(T, response.body)? }
-		else { panic('Http code: $response.status_code $response.status_msg') }
+		true {
+			json.decode(T, response.body)?
+		}
+		else {
+			panic('Http code: $response.status_code $response.status_msg')
+			T{}
+		}
 	}
 }
 
@@ -51,8 +61,13 @@ pub fn (self Api) update_document<T>(collection string, document T) ?T {
 	) or { panic(err) }
 
 	return match response.status().is_success() {
-		true { json.decode(T, response.body)? }
-		else { panic('Http code: $response.status_code $response.status_msg') }
+		true {
+			json.decode(T, response.body)?
+		}
+		else {
+			panic('Http code: $response.status_code $response.status_msg')
+			T{}
+		}
 	}
 }
 
@@ -64,8 +79,13 @@ pub fn (self Api) delete_document<T>(collection string, document T) {
 	) or { panic(err) }
 
 	match response.status().is_success() {
-		true { eprintln(response.body) }
-		else { panic('Http code: $response.status_code $response.status_msg') }
+		true {
+			eprintln(response.body)
+		}
+		else {
+			panic('Http code: $response.status_code $response.status_msg')
+			T{}
+		}
 	}
 }
 
@@ -78,11 +98,20 @@ pub fn (self Api) execute_query<T, Q>(collection string, query map[string]Any) [
 	) or { panic(err) }
 
 	match response.status().is_success() {
-		true { json.decode(T, response.body)? }
-		else { panic('Http code: $response.status_code $response.status_msg') }
+		true {
+			json.decode(T, response.body)?
+		}
+		else {
+			panic('Http code: $response.status_code $response.status_msg')
+			T{}
+		}
 	}
 }
 
 pub interface Document {
 	id ?string
+}
+
+pub fn (self Document) test() ? {
+	eprintln('test')
 }

@@ -3,7 +3,7 @@ module widgets
 import x.json2 { Any }
 import src.data
 
-pub fn home(_data map[string]Any, props map[string]Any, context map[string]Any) ?Any {
+pub fn home(_data []Any, props map[string]Any, context map[string]Any) ?Any {
 	return {
 		'type':               Any('flex')
 		'direction':          'vertical'

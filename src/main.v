@@ -11,14 +11,15 @@ const (
 	root_widget = 'root'
 	widget_list = {
 		'root':    widgets.root
+		'menu':    widgets.menu
 		'home':    widgets.home
 		'counter': widgets.counter
 		'loading': widgets.loading
 	}
 	listener_list = {
 		'increment':       listeners.increment
-		'OnEnvStart':      listeners.on_env_start
-		'OnUserFirstJoin': listeners.on_user_first_join
+		'onEnvStart':      listeners.on_env_start
+		'onUserFirstJoin': listeners.on_user_first_join
 	}
 	resource_list = {
 		'logo': $embed_file('resources/logo.png')
@@ -55,12 +56,11 @@ fn parse_request(str_input string) ? {
 
 	request := json_str.as_map()
 
-	// request := json2.fast_raw_decode('{ "widget": "home", "data": [{ "id": "6330881dd1391d00018a730e", "count": 2, "user": "e83d5cee-4d24-420d-8052-b79e55241520" }], "props": { "text": "My personnal counter" }, "context": { "screen_size": {"width": 1503, "height": 885 } } }')?.as_map()
 	match true {
 		'widget' in request {
 			result := handle_widget(request['widget']?.str(), request['data']?.arr(),
 				request['props']?.as_map(), request['context']?.as_map()) or {
-				panic(error('Error during parsing widget $str_input'))
+				panic(error('Error during parsing widget $str_input\n$err'))
 			}
 			$if debug {
 				eprintln('Output: $result.prettify_json_str()')
@@ -68,14 +68,18 @@ fn parse_request(str_input string) ? {
 			println(result.json_str())
 		}
 		'action' in request {
-			handle_listener(request['action']?.str(), request['props']?.as_map(), request['event']?.as_map(),
-				request['api']?.as_map()) or {
-				panic(error('Error during parsing listener $str_input'))
+			action := request['action']?.str()
+			props := request['props']?.as_map()
+			event := request['event']?.as_map()
+			api := request['api']?.as_map()
+
+			handle_listener(action, props, event, api) or {
+				panic(error('Error during parsing listener $str_input\n$err'))
 			}
 		}
 		'resource' in request {
 			handle_resource(request['resource']?.str()) or {
-				panic(error('Error during parsing resource $str_input'))
+				panic(error('Error during parsing resource $str_input\n$err'))
 			}
 		}
 		else {}
@@ -102,10 +106,13 @@ fn handle_widget(name string, data []Any, props map[string]Any, context map[stri
 
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ? {
 	listener := listener_list[name]
-	listener(props, event, Api{
+
+	api_instance := Api{
 		url: api['url']?.str()
 		token: api['token']?.str()
-	}) or { panic(err) }
+	}
+
+	listener(props, event, api_instance) or { panic(err) }
 }
 
 fn handle_resource(name string) ?Any {

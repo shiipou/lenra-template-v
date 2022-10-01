@@ -2,7 +2,9 @@ module widgets
 
 import x.json2 { Any }
 
-pub fn counter(data map[string]Any, props map[string]Any, context map[string]Any) ?Any {
+pub fn counter(data []Any, props map[string]Any, context map[string]Any) ?Any {
+	eprintln('data: $data, props: $props, context: $context')
+	counter := data[0]?.as_map()
 	return {
 		'type':               Any('flex')
 		'spacing':            2
@@ -11,7 +13,7 @@ pub fn counter(data map[string]Any, props map[string]Any, context map[string]Any
 		'children':           [
 			Any({
 				'type':  Any('text')
-				'value': '${props['text']?}: ${data['count']?}'
+				'value': '${props['text']?}: ${counter['count']?}'
 			}),
 			{
 				'type':      Any('button')
@@ -19,7 +21,7 @@ pub fn counter(data map[string]Any, props map[string]Any, context map[string]Any
 				'onPressed': {
 					'action': Any('increment')
 					'props':  {
-						'id': data['id']?
+						'id': counter['id']?
 					}
 				}
 			},

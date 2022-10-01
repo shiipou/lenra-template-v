@@ -52,15 +52,16 @@ fn parse_request(str_input string) ? {
 	json_str := json2.fast_raw_decode(str_input) or {
 		map[string]Any{}
 	}
+
 	request := json_str.as_map()
+
 	// request := json2.fast_raw_decode('{ "widget": "home", "data": [{ "id": "6330881dd1391d00018a730e", "count": 2, "user": "e83d5cee-4d24-420d-8052-b79e55241520" }], "props": { "text": "My personnal counter" }, "context": { "screen_size": {"width": 1503, "height": 885 } } }')?.as_map()
 	match true {
 		'widget' in request {
-			result := handle_widget(request['widget']?.str(), request['data']?.as_map(),
+			result := handle_widget(request['widget']?.str(), request['data']?.arr(),
 				request['props']?.as_map(), request['context']?.as_map()) or {
 				panic(error('Error during parsing widget $str_input'))
 			}
-
 			$if debug {
 				eprintln('Output: $result.prettify_json_str()')
 			}
@@ -95,7 +96,7 @@ fn handle_manifest() Manifest {
 	}
 }
 
-fn handle_widget(name string, data map[string]Any, props map[string]Any, context map[string]Any) ?Any {
+fn handle_widget(name string, data []Any, props map[string]Any, context map[string]Any) ?Any {
 	return widget_list[name](data, props, context)
 }
 

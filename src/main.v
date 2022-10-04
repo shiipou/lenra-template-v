@@ -105,14 +105,21 @@ fn handle_widget(name string, data []Any, props map[string]Any, context map[stri
 }
 
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ? {
-	listener := listener_list[name]
+	match name in listener_list {
+		true {
+	  	listener := listener_list[name]
 
-	api_instance := Api{
-		url: api['url']?.str()
-		token: api['token']?.str()
+			api_instance := Api{
+				url: api['url']?.str()
+				token: api['token']?.str()
+			}
+
+			listener(props, event, api_instance) or { panic(err) }
+		}
+		else {
+			eprintln('Listener $name not defined')
+		}
 	}
-
-	listener(props, event, api_instance) or { panic(err) }
 }
 
 fn handle_resource(name string) ?Any {

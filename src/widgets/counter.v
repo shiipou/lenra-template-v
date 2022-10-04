@@ -23,7 +23,7 @@ pub fn counter(data []Any, props map[string]Any, context map[string]Any) ?Any {
 				'onPressed': {
 					'action': Any('increment')
 					'props':  {
-						'id': counter['id']?
+						'id': counter['_id']?
 					}
 				}
 			},

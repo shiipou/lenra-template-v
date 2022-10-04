@@ -1,5 +1,34 @@
-# template-v
-[V](https://github.com/vlang/v) template to boostrap Lenra app
+<div id="top"></div>
+<!--
+*** This README was created with https://github.com/othneildrew/Best-README-Template
+-->
+
+
+
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
+
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+
+<h3 align="center">Template V</h3>
+
+  <p align="center">
+    This template provides just enough to get started with your [V](https://github.com/vlang/v) application.
+    <br />
+    <br />
+    <a href="https://github.com/lenra-io/template-v/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/lenra-io/template-v/issues">Request Feature</a>
+  </p>
+</div>
 
 ## Get Started !
 
@@ -50,3 +79,17 @@ When everything is fine, you can stop your app by running the `lenra stop` comma
 ```bash
 lenra stop
 ```
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/lenra-io/template-v.svg?style=for-the-badge
+[contributors-url]: https://github.com/lenra-io/template-v/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/lenra-io/template-v.svg?style=for-the-badge
+[forks-url]: https://github.com/lenra-io/template-v/network/members
+[stars-shield]: https://img.shields.io/github/stars/lenra-io/template-v.svg?style=for-the-badge
+[stars-url]: https://github.com/lenra-io/template-v/stargazers
+[issues-shield]: https://img.shields.io/github/issues/lenra-io/template-v.svg?style=for-the-badge
+[issues-url]: https://github.com/lenra-io/template-v/issues
+[license-shield]: https://img.shields.io/github/license/lenra-io/template-v.svg?style=for-the-badge
+[license-url]: https://github.com/lenra-io/template-v/blob/master/LICENSE

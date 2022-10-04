@@ -21,7 +21,7 @@
 <h3 align="center">Template V</h3>
 
   <p align="center">
-    This template provides just enough to get started with your [V](https://github.com/vlang/v) application.
+    This template provides just enough to get started with your <a href="https://github.com/vlang/v">V</a> application.
     <br />
     <br />
     <a href="https://github.com/lenra-io/template-v/issues">Report Bug</a>

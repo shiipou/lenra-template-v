@@ -1,0 +1,27 @@
+componentsApi: "1.0"
+generator:
+  dofigen:
+    builders:
+    - name: builder
+      image: thevlang/vlang
+      workdir: /app
+      adds:
+      - "."
+      script:
+      - apt-get update && apt-get install -y libatomic1 libssl-dev
+      - mkdir -p out/
+      - v -cg -o out/app .
+      # copy the generated binary outside of the target directory. If not the other stages won't be able to find it since it's in a cache volume
+      - mv out/app /tmp/
+    image: bitnami/minideb
+    workdir: /app
+    artifacts:
+    - builder: builder
+      source: "/tmp/app"
+      destination: "/app/"
+    cmd:
+    - /app/app
+    ignores:
+    - "**"
+    - "!/src"
+    - "!/v.mod"

@@ -3,16 +3,19 @@ generator:
   dofigen:
     builders:
     - name: builder
-      image: thevlang/vlang
+      image: docker.io/thevlang/vlang
       workdir: /app
       adds:
       - "."
       script:
+      # Install dependencies
       - apt-get update && apt-get install -y libatomic1 libssl-dev
       - mkdir -p out/
       - v -cg -o out/app .
       # copy the generated binary outside of the target directory. If not the other stages won't be able to find it since it's in a cache volume
       - mv out/app /tmp/
+      caches:
+      - /var/cache/apt
     image: bitnami/minideb
     workdir: /app
     artifacts:

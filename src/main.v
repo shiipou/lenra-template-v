@@ -101,7 +101,7 @@ fn handle_manifest() Manifest {
 }
 
 fn handle_widget(name string, data []Any, props map[string]Any, context map[string]Any) !Any {
-	return widget_list[name](data, props, context)
+	return (widget_list[name])(data, props, context)
 }
 
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ! {

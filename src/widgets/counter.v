@@ -3,9 +3,9 @@ module widgets
 import x.json2 { Any }
 // import src.data
 
-pub fn counter(data []Any, props map[string]Any, context map[string]Any) ?Any {
+pub fn counter(data []Any, props map[string]Any, context map[string]Any) !Any {
 	eprintln('data: $data, props: $props, context: $context')
-	counter := data[0]?.as_map()
+	counter := data[0]!.as_map()
 
 	return {
 		'type':               Any('flex')
@@ -15,7 +15,7 @@ pub fn counter(data []Any, props map[string]Any, context map[string]Any) ?Any {
 		'children':           [
 			Any({
 				'type':  Any('text')
-				'value': '${props['text']?}: ${counter['count']?}'
+				'value': '${props['text']!}: ${counter['count']!}'
 			}),
 			{
 				'type':      Any('button')
@@ -23,7 +23,7 @@ pub fn counter(data []Any, props map[string]Any, context map[string]Any) ?Any {
 				'onPressed': {
 					'action': Any('increment')
 					'props':  {
-						'id': counter['_id']?
+						'id': counter['_id']!
 					}
 				}
 			},

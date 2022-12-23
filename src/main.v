@@ -49,7 +49,7 @@ fn main() {
 	}
 }
 
-fn parse_request(str_input string) ? {
+fn parse_request(str_input string) ! {
 	json_str := json2.fast_raw_decode(str_input) or {
 		map[string]Any{}
 	}
@@ -58,8 +58,8 @@ fn parse_request(str_input string) ? {
 
 	match true {
 		'widget' in request {
-			result := handle_widget(request['widget']?.str(), request['data']?.arr(),
-				request['props']?.as_map(), request['context']?.as_map()) or {
+			result := handle_widget(request['widget']!.str(), request['data']!.arr(),
+				request['props']!.as_map(), request['context']!.as_map()) or {
 				panic(error('Error during parsing widget $str_input\n$err'))
 			}
 			$if debug {
@@ -68,17 +68,17 @@ fn parse_request(str_input string) ? {
 			println(result.json_str())
 		}
 		'action' in request {
-			action := request['action']?.str()
-			props := request['props']?.as_map()
-			event := request['event']?.as_map()
-			api := request['api']?.as_map()
+			action := request['action']!.str()
+			props := request['props']!.as_map()
+			event := request['event']!.as_map()
+			api := request['api']!.as_map()
 
 			handle_listener(action, props, event, api) or {
 				panic(error('Error during parsing listener $str_input\n$err'))
 			}
 		}
 		'resource' in request {
-			handle_resource(request['resource']?.str()) or {
+			handle_resource(request['resource']!.str()) or {
 				panic(error('Error during parsing resource $str_input\n$err'))
 			}
 		}
@@ -100,18 +100,18 @@ fn handle_manifest() Manifest {
 	}
 }
 
-fn handle_widget(name string, data []Any, props map[string]Any, context map[string]Any) ?Any {
+fn handle_widget(name string, data []Any, props map[string]Any, context map[string]Any) !Any {
 	return widget_list[name](data, props, context)
 }
 
-fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ? {
+fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ! {
 	match name in listener_list {
 		true {
 	  	listener := listener_list[name]
 
 			api_instance := Api{
-				url: api['url']?.str()
-				token: api['token']?.str()
+				url: api['url']!.str()
+				token: api['token']!.str()
 			}
 
 			listener(props, event, api_instance) or { panic(err) }
@@ -122,6 +122,6 @@ fn handle_listener(name string, props map[string]Any, event map[string]Any, api 
 	}
 }
 
-fn handle_resource(name string) ?Any {
-	return resource_list[name]?.str()
+fn handle_resource(name string) !Any {
+	return resource_list[name]!.str()
 }

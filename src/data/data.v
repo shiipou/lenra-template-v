@@ -15,7 +15,7 @@ pub:
 	token string
 }
 
-pub fn (self Api) get_document<T>(collection string, id string) ?T {
+pub fn (self Api) get_document<T>(collection string, id string) !T {
 	response := http.fetch(
 		url: '$self.url/app/colls/$collection/docs/$id'
 		method: .get
@@ -27,7 +27,7 @@ pub fn (self Api) get_document<T>(collection string, id string) ?T {
 
 	return match response.status().is_success() {
 		true {
-			json.decode(T, response.body)?
+			json.decode(T, response.body)!
 		}
 		else {
 			panic('Http code: $response.status_code $response.status_msg')
@@ -36,7 +36,7 @@ pub fn (self Api) get_document<T>(collection string, id string) ?T {
 	}
 }
 
-pub fn (self Api) create_document<T>(collection string, document T) ?T {
+pub fn (self Api) create_document<T>(collection string, document T) !T {
 	eprintln('CreateDocument: $collection, $document')
 
 	response := http.fetch(
@@ -53,7 +53,7 @@ pub fn (self Api) create_document<T>(collection string, document T) ?T {
 
 	return match response.status().is_success() {
 		true {
-			json.decode(T, response.body)?
+			json.decode(T, response.body)!
 		}
 		else {
 			panic('Http code: $response.status_code $response.status_msg')
@@ -62,7 +62,7 @@ pub fn (self Api) create_document<T>(collection string, document T) ?T {
 	}
 }
 
-pub fn (self Api) update_document<T>(collection string, document T) ?T {
+pub fn (self Api) update_document<T>(collection string, document T) !T {
 	response := http.fetch(
 		url: '$self.url/app/colls/$collection/docs/$document.id'
 		method: .put
@@ -75,7 +75,7 @@ pub fn (self Api) update_document<T>(collection string, document T) ?T {
 
 	return match response.status().is_success() {
 		true {
-			json.decode(T, response.body)?
+			json.decode(T, response.body)!
 		}
 		else {
 			panic('Http code: $response.status_code $response.status_msg')
@@ -105,7 +105,7 @@ pub fn (self Api) delete_document<T>(collection string, document T) {
 	}
 }
 
-pub fn (self Api) execute_query<T>(collection string, query string) ?[]T {
+pub fn (self Api) execute_query<T>(collection string, query string) ![]T {
 	response := http.fetch(
 		url: '$self.url/app/colls/$collection/docs/find'
 		method: .post
@@ -118,7 +118,7 @@ pub fn (self Api) execute_query<T>(collection string, query string) ?[]T {
 
 	return match response.status().is_success() {
 		true {
-			json.decode([]T, response.body)?
+			json.decode([]T, response.body)!
 		}
 		else {
 			panic('Http code: $response.status_code $response.status_msg')

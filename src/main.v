@@ -108,7 +108,7 @@ fn handle_view(name string, data []Any, props map[string]Any, context map[string
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ! {
 	match name in listener_list {
 		true {
-	  	listener := listener_list[name]
+			listener := listener_list[name]
 
 			api_instance := Api{
 				url: api['url']!.str()

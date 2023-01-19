@@ -101,7 +101,8 @@ fn handle_manifest() Manifest {
 }
 
 fn handle_view(name string, data []Any, props map[string]Any, context map[string]Any) !Any {
-	return (view_list[name])(data, props, context)
+	view := view_list[name]
+	return view(data, props, context)
 }
 
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ! {

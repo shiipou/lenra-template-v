@@ -1,4 +1,4 @@
-module widgets
+module views
 
 import x.json2 { Any }
 // import src.data

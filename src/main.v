@@ -5,16 +5,16 @@ import json
 import x.json2 { Any }
 import src.data { Api }
 import src.listeners
-import src.widgets
+import src.views
 
 const (
-	root_widget = 'root'
-	widget_list = {
-		'root':    widgets.root
-		'menu':    widgets.menu
-		'home':    widgets.home
-		'counter': widgets.counter
-		'loading': widgets.loading
+	root_view = 'root'
+	view_list = {
+		'root':    views.root
+		'menu':    views.menu
+		'home':    views.home
+		'counter': views.counter
+		'loading': views.loading
 	}
 	listener_list = {
 		'increment':       listeners.increment
@@ -57,10 +57,10 @@ fn parse_request(str_input string) ! {
 	request := json_str.as_map()
 
 	match true {
-		'widget' in request {
-			result := handle_widget(request['widget']!.str(), request['data']!.arr(),
+		'view' in request {
+			result := handle_view(request['view']!.str(), request['data']!.arr(),
 				request['props']!.as_map(), request['context']!.as_map()) or {
-				panic(error('Error during parsing widget $str_input\n$err'))
+				panic(error('Error during parsing view $str_input\n$err'))
 			}
 			$if debug {
 				eprintln('Output: $result.prettify_json_str()')
@@ -87,21 +87,21 @@ fn parse_request(str_input string) ! {
 }
 
 struct Manifest {
-	widgets   []string [required]
+	views   []string [required]
 	listeners []string [required]
-	root      string   [json: rootWidget; required]
+	root      string   [json: rootView; required]
 }
 
 fn handle_manifest() Manifest {
 	return Manifest{
-		widgets: widget_list.keys()
+		views: view_list.keys()
 		listeners: listener_list.keys()
-		root: root_widget
+		root: root_view
 	}
 }
 
-fn handle_widget(name string, data []Any, props map[string]Any, context map[string]Any) !Any {
-	return (widget_list[name])(data, props, context)
+fn handle_view(name string, data []Any, props map[string]Any, context map[string]Any) !Any {
+	return (view_list[name])(data, props, context)
 }
 
 fn handle_listener(name string, props map[string]Any, event map[string]Any, api map[string]Any) ! {

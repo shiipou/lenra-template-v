@@ -1,4 +1,4 @@
-module widgets
+module views
 
 import x.json2 { Any }
 
@@ -11,11 +11,11 @@ pub fn root(data []Any, props map[string]Any, context map[string]Any) !Any {
 		'crossAxisAlignment': 'center'
 		'children':           [
 			Any({
-				'type': Any('widget')
+				'type': Any('view')
 				'name': 'menu'
 			}),
 			{
-				'type': Any('widget')
+				'type': Any('view')
 				'name': 'home'
 			},
 		]

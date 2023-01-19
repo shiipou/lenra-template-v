@@ -1,4 +1,4 @@
-module widgets
+module views
 
 import x.json2 { Any }
 import src.data
@@ -12,7 +12,7 @@ pub fn home(_data []Any, props map[string]Any, context map[string]Any) !Any {
 		'crossAxisAlignment': 'center'
 		'children':           [
 			Any({
-				'type':  Any('widget')
+				'type':  Any('view')
 				'name':  'counter'
 				'coll':  data.counter_collection
 				'query': {
@@ -23,7 +23,7 @@ pub fn home(_data []Any, props map[string]Any, context map[string]Any) !Any {
 				}
 			}),
 			{
-				'type':  Any('widget')
+				'type':  Any('view')
 				'name':  'counter'
 				'coll':  data.counter_collection
 				'query': {

@@ -2,7 +2,7 @@ module views
 
 import x.json2 { Any }
 
-pub fn root(data []Any, props map[string]Any, context map[string]Any) !Any {
+pub fn main(data []Any, props map[string]Any, context map[string]Any) !Any {
 	return {
 		'type':               Any('flex')
 		'direction':          'vertical'

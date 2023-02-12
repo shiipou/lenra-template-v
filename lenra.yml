@@ -2,20 +2,30 @@ componentsApi: "1.0"
 generator:
   dofigen:
     builders:
+    - name: dependencies
+      image: docker.io/thevlang/vlang
+      workdir: /app
+      script:
+      # Install dependencies
+      - apt-get update && apt-get install -y libatomic1 libssl-dev
+      caches:
+      - /var/cache/apt
     - name: builder
       image: docker.io/thevlang/vlang
       workdir: /app
+      artifacts:
+      - builder: dependencies
+        source: "/var/cache/apt"
+        destination: "/var/cache/apt"
       adds:
       - "."
       script:
       # Install dependencies
-      - apt-get update && apt-get install -y libatomic1 libssl-dev
+      - apt-get install -y libatomic1 libssl-dev
       - mkdir -p out/
       - v -cg -o out/app .
       # copy the generated binary outside of the target directory. If not the other stages won't be able to find it since it's in a cache volume
       - mv out/app /tmp/
-      caches:
-      - /var/cache/apt
     image: bitnami/minideb
     workdir: /app
     artifacts:

@@ -8,9 +8,9 @@ import src.listeners
 import src.views
 
 const (
-	root_view = 'root'
+	root_view = 'main'
 	view_list = {
-		'root':    views.root
+		'main':    views.main
 		'menu':    views.menu
 		'home':    views.home
 		'counter': views.counter
@@ -18,6 +18,7 @@ const (
 	}
 	listener_list = {
 		'increment':       listeners.increment
+		'onSessionStart':      listeners.on_session_start
 		'onEnvStart':      listeners.on_env_start
 		'onUserFirstJoin': listeners.on_user_first_join
 	}
@@ -37,7 +38,8 @@ fn main() {
 	}
 	match str_input.len {
 		0 {
-			manifest := '{"manifest": ${json.encode(handle_manifest())}}'
+			json_manifest_value := json.encode(handle_manifest())
+			manifest := '{"manifest": $json_manifest_value}'
 			$if debug {
 				eprintln('Output: $manifest')
 			}
@@ -50,16 +52,27 @@ fn main() {
 }
 
 fn parse_request(str_input string) ! {
+	eprintln('parse_request: $str_input')
 	json_str := json2.fast_raw_decode(str_input) or {
 		map[string]Any{}
 	}
 
 	request := json_str.as_map()
+	eprintln('request: $request')
 
 	match true {
 		'view' in request {
-			result := handle_view(request['view']!.str(), request['data']!.arr(),
-				request['props']!.as_map(), request['context']!.as_map()) or {
+			view := request['view'] or { panic(error('View not defined')) }
+			eprintln('view: ${view.str()}')
+			data := request['data'] or { panic(error('Data not defined')) }
+			eprintln('data: ${data.arr()}')
+			props := request['props'] or { panic(error('Props not defined')) }
+			eprintln('props: ${props.as_map()}')
+			context := request['context'] or { panic(error('Context not defined')) }
+			eprintln('context: ${context.as_map()}')
+			
+			result := handle_view(view.str(), data.arr(),
+				props.as_map(), context.as_map()) or {
 				panic(error('Error during parsing view $str_input\n$err'))
 			}
 			$if debug {

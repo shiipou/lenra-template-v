@@ -36,19 +36,9 @@ fn main() {
 	$if debug {
 		eprintln('Input: $str_input')
 	}
-	match str_input.len {
-		0 {
-			json_manifest_value := json.encode(handle_manifest())
-			manifest := '{"manifest": $json_manifest_value}'
-			$if debug {
-				eprintln('Output: $manifest')
-			}
-			println(manifest)
-		}
-		else {
-			parse_request(str_input) or { panic(err) }
-		}
-	}
+
+	parse_request(str_input) or { panic(err) }
+
 }
 
 fn parse_request(str_input string) ! {
@@ -62,15 +52,15 @@ fn parse_request(str_input string) ! {
 
 	match true {
 		'view' in request {
-			view := request['view'] or { panic(error('View not defined')) }
+			view := request['view'] or { map[string]Any{} }
 			eprintln('view: ${view.str()}')
-			data := request['data'] or { panic(error('Data not defined')) }
+			data := request['data'] or { []Any }
 			eprintln('data: ${data.arr()}')
-			props := request['props'] or { panic(error('Props not defined')) }
+			props := request['props'] or { map[string]Any{} }
 			eprintln('props: ${props.as_map()}')
-			context := request['context'] or { panic(error('Context not defined')) }
+			context := request['context'] or { map[string]Any{} }
 			eprintln('context: ${context.as_map()}')
-			
+
 			result := handle_view(view.str(), data.arr(),
 				props.as_map(), context.as_map()) or {
 				panic(error('Error during parsing view $str_input\n$err'))
@@ -78,7 +68,7 @@ fn parse_request(str_input string) ! {
 			$if debug {
 				eprintln('Output: $result.prettify_json_str()')
 			}
-			println(result.json_str())
+			print(result.json_str())
 		}
 		'action' in request {
 			action := request['action']!.str()
@@ -95,21 +85,21 @@ fn parse_request(str_input string) ! {
 				panic(error('Error during parsing resource $str_input\n$err'))
 			}
 		}
-		else {}
+		else {
+			manifest := handle_manifest()
+			$if debug {
+				eprintln('Output: $manifest.prettify_json_str()')
+			}
+			print(manifest.json_str())
+		}
 	}
 }
 
-struct Manifest {
-	views   []string [required]
-	listeners []string [required]
-	root      string   [json: rootView; required]
-}
-
-fn handle_manifest() Manifest {
-	return Manifest{
-		views: view_list.keys()
-		listeners: listener_list.keys()
-		root: root_view
+fn handle_manifest() Any {
+	return {
+		"manifest": Any({
+			"rootView": Any(root_view)
+		})
 	}
 }
 

@@ -7,24 +7,24 @@ pub fn menu(_data []Any, props map[string]Any, context map[string]Any) !Any {
 	return {
 		'type':       Any('container')
 		'decoration': {
-			'color':     Any(0xFFFFFFFF)
+			'color':     Any(u32(0xFFFFFFFF))
 			'boxShadow': {
 				'blurRadius': Any(8)
-				'color':      0x1A000000
+				'color':      u32(0x1A000000)
 				'offset':     {
 					'dx': Any(0)
 					'dy': 1
 				}
 			}
 		}
-		'padding':    padding_symmetric(2, 4)
+		'padding':    padding_symmetric(16, 32)
 		'child':      {
 			'type':               Any('flex')
 			'fillParent':         true
 			'mainAxisAlignment':  'spaceBetween'
 			'crossAxisAlignment': 'center'
 			'padding':            {
-				'right': Any(4)
+				'right': Any(32)
 			}
 			'children':           [
 				Any({

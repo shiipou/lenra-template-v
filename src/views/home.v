@@ -7,7 +7,7 @@ pub fn home(_data []Any, props map[string]Any, context map[string]Any) !Any {
 	return {
 		'type':               Any('flex')
 		'direction':          'vertical'
-		'spacing':            4
+		'spacing':            16
 		'mainAxisAlignment':  'spaceEvenly'
 		'crossAxisAlignment': 'center'
 		'children':           [

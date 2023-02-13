@@ -9,7 +9,7 @@ pub fn counter(data []Any, props map[string]Any, context map[string]Any) !Any {
 
 	return {
 		'type':               Any('flex')
-		'spacing':            2
+		'spacing':            16
 		'mainAxisAlignment':  'spaceEvenly'
 		'crossAxisAlignment': 'center'
 		'children':           [
